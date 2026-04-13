@@ -164,5 +164,8 @@ def query(question):
     else:
         return
 
-
+print("#########################################")
 query("what is the price of orange?")
+print("#########################################")
+query("what is the price of 10 oranges and 5 apples?")
+print("#########################################")
