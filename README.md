@@ -4,7 +4,7 @@ This workspace contains small Python examples that show different LLM patterns w
 
 ## Files
 
-- [main.py](main.py): Basic tool-calling agent example. Registers a custom weather tool and asks the agent a weather question.
+- [01_weather_tool_agent.py](01_weather_tool_agent.py): Basic tool-calling agent example. Registers a custom weather tool and asks the agent a weather question.
 - [02_structured_output.py](02_structured_output.py): Structured output example. Uses a Pydantic model to extract name, age, and email from free text.
 - [03_search_agent_tavily.py](03_search_agent_tavily.py): Web-search agent example. Uses Tavily as a tool and asks for an exchange-rate related answer.
 - [04_writing_improvement.py](04_writing_improvement.py): Writing improvement chain. Generates a draft paragraph, critiques it, then rewrites it with improvements.
