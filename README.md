@@ -11,6 +11,7 @@ This workspace contains small Python examples that show different LLM patterns w
 - [05_rag_local_docs.py](05_rag_local_docs.py): Simple RAG chain demo. Retrieves relevant local documents with keyword overlap, then answers using the retrieved context.
 - [06_summarization_chain.py](06_summarization_chain.py): Summarization chain demo. Produces a 3-paragraph explanation, a 3-sentence summary, and a tweet-sized version.
 - [07_react_fruit_agent.py](07_react_fruit_agent.py): ReAct-style loop demo with fruit price actions and tool observations.
+- [08_react_fruit_loop.py](08_react_fruit_loop.py): ReAct loop example that keeps iterating Thought/Action/Observation turns until it reaches an answer.
 
 ## Notes
 
