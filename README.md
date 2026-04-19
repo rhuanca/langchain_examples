@@ -12,6 +12,8 @@ This workspace contains small Python examples that show different LLM patterns w
 - [06_summarization_chain.py](06_summarization_chain.py): Summarization chain demo. Produces a 3-paragraph explanation, a 3-sentence summary, and a tweet-sized version.
 - [07_react_fruit_agent.py](07_react_fruit_agent.py): ReAct-style loop demo with fruit price actions and tool observations.
 - [08_react_fruit_loop.py](08_react_fruit_loop.py): ReAct loop example that keeps iterating Thought/Action/Observation turns until it reaches an answer.
+- [09_langgraph_basic_state.py](09_langgraph_basic_state.py): Intro to LangGraph. Builds a two-node StateGraph with a TypedDict state that adds 10 to a value then multiplies it by 2.
+- [10_langgraph_document_analysis.py](10_langgraph_document_analysis.py): LangGraph pipeline with a Pydantic state and an `add` reducer. Chains keyword extraction, sentiment analysis, and document stats into accumulated findings.
 
 ## Notes
 
