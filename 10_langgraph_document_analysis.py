@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field
 from langgraph.graph import StateGraph, START, END
 
 class AnalysisState(BaseModel):
-    """State doe document analysis pipeline"""
+    """State for document analysis pipeline"""
 
     # Input document - no reducer needed, stays constant
     document: str = ""
 
-    # Finding accumulate from each node using the add reducer
+    # Findings accumulate from each node using the add reducer
     findings: Annotated[list[str], add] = Field(default_factory=list)
 
-    # Status gets overwritten by each node (default behaivor)
+    # Status gets overwritten by each node (default behavior)
     status: str = "pending"
 
 
@@ -25,11 +25,11 @@ def extract_keywords(state: AnalysisState) -> dict:
     keyword_list = ["ai", "machine learning", "data", "python", "automation"]
     for keyword in keyword_list:
         if keyword in doc:
-            keywords_found.append(keyword)
-    
+            keywords_found.append(f"Keyword found: '{keyword}'")
+
     return {
-        "findings": keywords_found, # will be appended
-        "status": "keywords extracted" # will overwrite
+        "findings": keywords_found,
+        "status": "keywords extracted",
     }
 
 def analyze_sentiment(state: AnalysisState) -> dict:
@@ -37,28 +37,28 @@ def analyze_sentiment(state: AnalysisState) -> dict:
 
     doc = state.document.lower()
 
-    possitive_words = ["good", "great", "excellent", "positive", "happy"]
+    positive_words = ["good", "great", "excellent", "positive", "happy"]
     negative_words = ["bad", "terrible", "poor", "negative", "sad"]
 
-    positive_count = sum(1 for word in possitive_words if word in doc)
+    positive_count = sum(1 for word in positive_words if word in doc)
     negative_count = sum(1 for word in negative_words if word in doc)
 
     if positive_count > negative_count:
-        sentiment = "positive"
+        sentiment = "Positive"
     elif positive_count < negative_count:
-        sentiment = "negative"
+        sentiment = "Negative"
     else:
-        sentiment = "neutral"
+        sentiment = "Neutral"
 
     return {
-        "findings": [f"sentiment: {sentiment}"], # will be appended
-        "status": "sentiment analyzed" # will overwrite
+        "findings": [f"Sentiment: {sentiment}"],
+        "status": "sentiment analyzed",
     }
 
 def generate_stats(state: AnalysisState) -> dict:
     """Generate statistics from the document"""
 
-    doc = state.document.lower()
+    doc = state.document
 
     word_count = len(doc.split())
     sentence_count = doc.count(".") + doc.count("!") + doc.count("?")
@@ -68,7 +68,7 @@ def generate_stats(state: AnalysisState) -> dict:
             f"Word count: {word_count}",
             f"Sentence count: {sentence_count}",
         ],
-        "status": "stats generated",
+        "status": "complete",
     }
 
 builder = StateGraph(AnalysisState)
@@ -82,20 +82,24 @@ builder.add_edge("extract_keywords", "analyze_sentiment")
 builder.add_edge("analyze_sentiment", "generate_stats")
 builder.add_edge("generate_stats", END)
 
-graph = builder.compile()   
+graph = builder.compile()
 
-sample_document = """
-Artificial Intelligence (AI) is transforming the world. It has applications in various fields such as machine learning, data analysis, and automation. 
-Overall,the impact of AI is positive, but there are also concerns about its ethical implications.
-"""
+sample_document = (
+    "Artificial Intelligence (AI) is rapidly transforming the entire modern world today. "
+    "It has many applications in fields such as machine learning, data analysis, and automation. "
+    "Python is a popular language widely used in modern AI systems. "
+    "Overall, the impact of AI is positive, but concerns about ethical implications exist."
+)
 
 result = graph.invoke(AnalysisState(document=sample_document))
 
 # display results
+print("=" * 49)
 print("DOCUMENT ANALYSIS RESULTS")
-print("=========================")
-print(f"final status: {result['status']}")
-print("findings:")
-for finding in result["findings"]:
-    print(f"- {finding}")
-print("=========================")
+print("=" * 49)
+print()
+print(f"Final Status: {result['status']}")
+print()
+print("Findings (accumulated from all nodes):")
+for i, finding in enumerate(result["findings"], start=1):
+    print(f"  {i}. {finding}")
